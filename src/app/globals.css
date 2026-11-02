@@ -1,0 +1,289 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy-950: #071629;
+  --color-navy-900: #10243d;
+  --color-gold: #c99a48;
+  --color-gold-light: #e6c27a;
+  /* Darker gold for small text on light backgrounds, where Royal Gold fails AA contrast. */
+  --color-gold-deep: #80591a;
+  --color-paper: #f7f5f0;
+  --color-ink: #1d2939;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+
+  --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    scrollbar-gutter: stable;
+    background-color: var(--color-navy-950);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-gold-light);
+    color: var(--color-navy-950);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  .container-site {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 80rem;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 40rem) {
+    .container-site {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .container-site {
+      padding-inline: 3rem;
+    }
+  }
+
+  .section {
+    padding-block: 5rem;
+  }
+
+  @media (min-width: 64rem) {
+    .section {
+      padding-block: 8rem;
+    }
+  }
+
+  .label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .btn {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    overflow: hidden;
+    border: 1px solid transparent;
+    padding: 0.75rem 1.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition:
+      color 0.35s var(--ease-luxe),
+      border-color 0.35s var(--ease-luxe);
+  }
+
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--ease-luxe);
+  }
+
+  .btn:hover::before {
+    transform: scaleX(1);
+  }
+
+  .btn:disabled {
+    cursor: wait;
+    opacity: 0.7;
+  }
+
+  .btn-gold {
+    background-color: var(--color-gold);
+    color: var(--color-navy-950);
+  }
+
+  .btn-gold::before {
+    background-color: var(--color-gold-light);
+  }
+
+  .btn-outline {
+    border-color: color-mix(in srgb, var(--color-gold-light) 65%, transparent);
+    color: #fff;
+  }
+
+  .btn-outline::before {
+    background-color: var(--color-gold-light);
+  }
+
+  .btn-outline:hover {
+    color: var(--color-navy-950);
+  }
+
+  .btn-navy {
+    background-color: var(--color-navy-950);
+    color: #fff;
+  }
+
+  .btn-navy::before {
+    background-color: var(--color-navy-900);
+  }
+
+  /* Architectural crop marks at the corners of an image. */
+  .crop-marks::after {
+    --tick: var(--color-gold-light);
+    content: "";
+    position: absolute;
+    inset: 0.875rem;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--tick), var(--tick)) top left / 1.5rem 1px no-repeat,
+      linear-gradient(var(--tick), var(--tick)) top left / 1px 1.5rem no-repeat,
+      linear-gradient(var(--tick), var(--tick)) top right / 1.5rem 1px no-repeat,
+      linear-gradient(var(--tick), var(--tick)) top right / 1px 1.5rem no-repeat,
+      linear-gradient(var(--tick), var(--tick)) bottom left / 1.5rem 1px no-repeat,
+      linear-gradient(var(--tick), var(--tick)) bottom left / 1px 1.5rem no-repeat,
+      linear-gradient(var(--tick), var(--tick)) bottom right / 1.5rem 1px no-repeat,
+      linear-gradient(var(--tick), var(--tick)) bottom right / 1px 1.5rem no-repeat;
+  }
+
+  .field {
+    width: 100%;
+    min-height: 3rem;
+    border: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 28%, transparent);
+    border-radius: 0;
+    background: transparent;
+    padding: 0.5rem 0;
+    color: var(--color-ink);
+    font-size: 1rem;
+    transition: border-color 0.3s var(--ease-luxe);
+  }
+
+  .field:focus {
+    border-bottom-color: var(--color-gold);
+    box-shadow: 0 1px 0 0 var(--color-gold);
+    outline: none;
+  }
+
+  .field[aria-invalid="true"] {
+    border-bottom-color: #b42318;
+  }
+
+  /* The dialog element fills the viewport; its contents supply the panel. */
+  .dialog-root {
+    position: fixed;
+    inset: 0;
+    margin: 0;
+    width: 100dvw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    color: inherit;
+    overscroll-behavior: contain;
+  }
+
+  .dialog-root::backdrop {
+    background: transparent;
+  }
+}
+
+@layer utilities {
+  .rise {
+    animation: rise 0.9s var(--ease-luxe) both;
+  }
+
+  .hero-settle {
+    animation: settle 2.4s var(--ease-luxe) both;
+  }
+
+  .plumb {
+    animation: plumb 2.6s var(--ease-luxe) infinite;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+}
+
+@keyframes settle {
+  from {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes plumb {
+  0% {
+    transform: translateY(-100%);
+  }
+  55%,
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .rise,
+  .hero-settle,
+  .plumb {
+    animation: none;
+  }
+
+  .btn::before {
+    transition: none;
+  }
+}
